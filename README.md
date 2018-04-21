@@ -1,9 +1,8 @@
-# MERN-boilerplate
+# MERN
 
-This is a boilerplate project using the following technologies:
+This is a project using the following technologies:
 - [React](https://facebook.github.io/react/) and [React Router](https://reacttraining.com/react-router/) for the frontend
 - [Express](http://expressjs.com/) and [Mongoose](http://mongoosejs.com/) for the backend
-- [Sass](http://sass-lang.com/) for styles (using the SCSS syntax)
 - [Webpack](https://webpack.github.io/) for compilation
 
 
@@ -11,23 +10,21 @@ This is a boilerplate project using the following technologies:
 
 - [Node.js](https://nodejs.org/en/) 6+
 
-```shell
+```terminal
 npm install
 ```
 
 
 ## Running
 
-Make sure to add a `config.js` file in the `config` folder. See the example there for more details.
-
 Production mode:
 
-```shell
+```terminal
 npm start
 ```
 
 Development (Webpack dev server) mode:
 
-```shell
+```terminal
 npm run start:dev
 ```

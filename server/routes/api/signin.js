@@ -201,32 +201,65 @@ module.exports = (app) => {
     // make sure its unique
     //make sure token is not deleted
 
-      const { query } = request
-      const { token } = query
+    const { query } = request
+    const { token } = query
 
-      UserSession.find({
-        _id: token,
-        isDeleted: false
-      },
+    UserSession.find({
+      _id: token,
+      isDeleted: false
+    },
 
-      (err, sessions) => {
+    (err, sessions) => {
 
-        if( err ){
-          return res.send({
-            success: false,
-            message: 'Server Error'
-          })
-        }
-        if(sessions.length != 1){
-          return res.send({
-            success: true,
-            message: 'Your good to go'
+      if( err ){
+        return res.send({
+          success: false,
+          message: 'Server Error'
+        })
+      }
+      if(sessions.length != 1){
+        return res.send({
+          success: false,
+          message: 'Invalid'
+        });
+      } else {
+        return response.send({
+          success: true,
+          message: 'Your Good To Go!'
+        })
+      }
+    });
+  });
+
+  app.get('api/account/logout', (request, response, next) => {
+//FIND ONE and UPDATE - MONGOOSE
+    const { query } = request
+    const { token } = query
+
+
+    UserSession.findAndUpdate({
+      _id: token,
+      isDeleted: false
+    }, {
+      $set:{isDeleted:true}
+    }, null,
+
+    (err, sessions) => {
+
+      if( err ){
+        return res.send({
+          success: false,
+          message: 'Server Error'
+        })
+      }
+
+      return response.send({
+          success: true,
+          message: 'Your Good To Go!'
         })
 
-      }
-    
+    });
 
+  })
 
-})
-
-}
+};

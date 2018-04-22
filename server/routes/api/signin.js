@@ -9,7 +9,7 @@ module.exports = (app) => {
   //so that there is no repetition in variable names
   //https://www.youtube.com/watch?v=sjyJBL5fkp8
 
-//--------------USER SIGN UP-------------------------------------
+  //--------------USER SIGN UP-------------------------------------
   app.post('api/account/signup', (request, response, next) => {
 
     const { body } = request
@@ -167,7 +167,7 @@ module.exports = (app) => {
       }
 
       //Create User SESSIONN
-      new UserSession = new UserSession()
+      const UserSession = new UserSession()
       UserSession.userId = user._id
       UserSession.save((err, idd) => {
         if ( err ){
@@ -195,6 +195,37 @@ module.exports = (app) => {
 
   })
 
+  app.get('api/account/verify', (request, response, next) => {
 
+    //verify the token in the sign in
+    // make sure its unique
+    //make sure token is not deleted
+
+      const { query } = request
+      const { token } = query
+
+      UserSession.find({
+        _id: token,
+        isDeleted: false
+      },
+
+      (err, sessions) => {
+
+        if( err ){
+          return res.send({
+            success: false,
+            message: 'Server Error'
+          })
+        }
+        if(sessions.length != 1){
+          return res.send({
+            success: true,
+            message: 'Your good to go'
+        })
+
+      }
+
+
+})
 
 }

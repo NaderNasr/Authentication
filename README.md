@@ -33,3 +33,6 @@ Development (Webpack dev server) mode:
 ```terminal
 npm run start:dev
 ```
+make sure to install bcrypt
+
+npm install bcrypt --save

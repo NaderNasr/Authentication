@@ -1,4 +1,5 @@
 const User = require('../../models/User')
+const UserSession = require('../../models/UserSession')
 
 //User model
 
@@ -12,7 +13,8 @@ module.exports = (app) => {
   app.post('api/account/signup', (request, response, next) => {
 
     const { body } = request
-    const  {firstName, lastName, email, password } = body;
+    const { firstName, lastName, password } = body;
+    const { email } = body;
 
     if(!firstName){
       return response.send({
@@ -101,4 +103,98 @@ module.exports = (app) => {
     })
 
   })
+
+  app.post('api/account/signin', (request, response, next) => {
+
+    const { body } = request
+    const { firstName, lastName, password } = body;
+    const { email } = body;
+
+
+    if(!firstName){
+      return response.send({
+        success: false,
+        message: 'First Name Cannot Be Empty'
+      })
+    }
+
+
+    if(!lastName){
+      return response.send({
+        success: false,
+        message: 'Last Name Cannot Be Empty'
+      })
+    }
+
+    if(!email){
+      return response.send({
+        success: false,
+        message: 'E-mail Cannot Be Empty'
+      })
+    }
+
+    if(!password){
+      return response.send({
+        success: false,
+        message: 'password Cannot Be Empty'
+      })
+    }
+
+    User.find({
+      email: email,
+    }, (err, users) => {
+      if ( err ){
+        return response.send({
+          success: false,
+          message: 'Error...'
+        })
+      }
+
+      if(users.length != 1){
+        return response.send({
+          success: false,
+          message: 'Error...Not Valid' //invalid password
+        })
+      }
+
+      const user = users[0]
+
+      if(!user.validPass(password)){
+        return response.send({
+          success: false,
+          message: 'Error...Not Valid' //invalid password
+        })
+      }
+
+      //Create User SESSIONN
+      new UserSession = new UserSession()
+      UserSession.userId = user._id
+      UserSession.save((err, idd) => {
+        if ( err ){
+          return response.send({
+            success: false,
+            message: 'Error...Not Valid'
+          })
+        }
+
+        return response.send({
+          success: true,
+          message: 'Sign in has been successful',
+          token: idd._id //this is the unique string that the password id and password generates
+          //both the password and the ID are connected to the same token
+        })
+
+
+      })
+
+
+
+    })
+
+    email = email.toLowerCase()
+
+  })
+
+
+
 }

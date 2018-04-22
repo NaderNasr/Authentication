@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -31,7 +32,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.generateHash = function(password){
-  return bcrypto.hashSync(password, bcrypt.genSaltSync(8),null)
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8),null)
 }
 
 UserSchema.methods.validPass = function (password) {

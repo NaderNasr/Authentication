@@ -14,6 +14,7 @@ N - Node
 ## Requirements
 
 - [Node.js](https://nodejs.org/en/) 6+
+- [Material Design Bootstrap React] (https://mdbootstrap.com/react/)
 
 ```terminal
 npm install

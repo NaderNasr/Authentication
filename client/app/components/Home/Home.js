@@ -31,6 +31,9 @@ class Home extends Component {
     this.onTextBoxChangeSignUpFirstName = this.onTextBoxChangeSignUpFirstName.bind(this)
     this.onTextBoxChangeSignUpLastName = this.onTextBoxChangeSignUpLastName.bind(this)
 
+    this.onSignUp = this.onSignUp.bind(this)
+    this.onSignIn = this.onSignIn.bind(this)
+
   }
 
   componentDidMount() {
@@ -98,7 +101,68 @@ class Home extends Component {
   }
 
 
+  onSignIn(){
+    // POST request to backend
+    // Grab state
+    const {
+      signUpEmail,
+      signUpPassword,
+      signUpFirstName,
+      signUpLastName,
+    } = this.state
 
+    this.setState({
+      isLoading: true,
+
+    })
+
+    fetch('/api/account/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: signUpFirstName,
+        lastName: signUpLastName,
+        email: signUpEmail,
+        password: signUpPassword
+      }),
+    })
+    .then(res => req.json())
+    .then(json => {
+      if(json.success){
+        this.setState({
+          signUpError: json.message,
+          isLoading: false,
+          signUpEmail: '',
+          signUpPassword: '',
+          signUpFirstName: '',
+          signUpLastName: '',
+        })
+      } else {
+        this.setState({
+          signUpError: json.message,
+          isLoading: false,
+
+        })
+      }
+    })
+
+
+  }
+
+  onSignUp() {
+    // Grab state
+    const {
+      signUpEmail,
+      signUpPassword,
+    } = this.state;
+
+    this.setState({
+      isLoading: true,
+    });
+
+}
 
   render() {
 
@@ -156,10 +220,16 @@ class Home extends Component {
         onChange = {this.onTextBoxChangeSignInPassword}
 
         /><br/>
-        <button>Sign In</button>
+        <button onClick = {this.onSignIn} >Sign In</button>
         </div>
         <br/>
         <br/>
+
+        {
+          (signUpError) ? ( //if sign in error true
+            <p>{signInError}</p> // return the sign in error
+          ) : (null) // otherwise return null
+        }
         <div>
 
         <p>Sign Up</p>
@@ -195,7 +265,7 @@ class Home extends Component {
         onChange = {this.onTextBoxChangeSignUpPassword}
 
         /><br/>
-        <button>Sign Up</button>
+        <button onClick = {this.onSignUp}>Sign Up</button>
         </div>
         </div>
       )

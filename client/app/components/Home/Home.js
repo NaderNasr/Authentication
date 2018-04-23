@@ -33,14 +33,16 @@ class Home extends Component {
 
     this.onSignUp = this.onSignUp.bind(this)
     this.onSignIn = this.onSignIn.bind(this)
+    this.logout = this.logout.bind(this)
 
   }
 
   componentDidMount() {
 
-    const token = getFromStorage('TROLL')
+    const obj = getFromStorage('TROLL')
+    if(obj && obj.token){
+      const {token} = obj.token
 
-    if(token){
       fetch('/api/account/verify?token' + token)
       .then(res => res.json())
       .then(json => {
@@ -101,7 +103,7 @@ class Home extends Component {
   }
 
 
-  onSignIn(){
+  onSignUp(){
     // POST request to backend
     // Grab state
     const {
@@ -116,7 +118,7 @@ class Home extends Component {
 
     })
 
-    fetch('/api/account/signup', {
+    fetch('api/account/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -151,18 +153,84 @@ class Home extends Component {
 
   }
 
-  onSignUp() {
+  onSignIn() {
+    // POST request to backend
     // Grab state
     const {
-      signUpEmail,
-      signUpPassword,
-    } = this.state;
+      signInEmail,
+      signInPassword,
+
+    } = this.state
 
     this.setState({
       isLoading: true,
-    });
 
+    })
+
+    fetch('api/account/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+
+        email: signInEmail,
+        password: signInPassword,
+      }),
+    })
+    .then(res => req.json())
+    .then(json => {
+      if(json.success){
+        setInStorage('TROLL', {token: json.token}) //save the token
+        this.setState({
+          signInError: json.message,
+          isLoading: false,
+          signInEmail: '',
+          signInPassword: '',
+          token: json.token,
+
+        })
+      } else {
+        this.setState({
+          signInError: json.message,
+          isLoading: false,
+
+        })
+      }
+    })
 }
+
+  logout(){
+    this.setState({
+      isLoading: true
+    })
+    const obj = getFromStorage('TROLL')
+    if(obj && obj.token){
+      const {token} = obj.token
+
+      fetch('api/account/logout?token' + token)
+      .then(res => res.json())
+      .then(json => {
+        if(json.success){
+          this.setState({
+            token:'',
+            isLoading: false,
+          })
+        } else {
+          this.setState({
+            isLoading: false,
+          })
+        }
+      })
+
+    } else {
+      this.setState({
+        //this part is for the sighn in and sign up page
+        isLoading: false,
+      })
+    }
+  }
+
 
   render() {
 
@@ -277,6 +345,7 @@ class Home extends Component {
       <div>
       <p>Account</p>
       </div>
+      <button onClick = {this.logout}>LogOut</button>
       </div>
     );
   }

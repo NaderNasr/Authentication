@@ -10,10 +10,26 @@ class Home extends Component {
     this.state = {
       token: '',
       isLoading: true,
+
       signUpError: '',
-      signInError: ''
+      signInError: '',
+
+      signInEmail: '',
+      signInPassword: '',
+
+      signUpPassword: '',
+      signUpEmail: '',
+      signUpFirstName: '',
+      signUpLastName: ''
+
     };
 
+    this.onTextBoxChangeSignInEmail = this.onTextBoxChangeSignInEmail.bind(this)
+    this.onTextBoxChangeSignUpEmail = this.onTextBoxChangeSignUpEmail.bind(this)
+    this.onTextBoxChangeSignInPassword = this.onTextBoxChangeSignInPassword.bind(this)
+    this.onTextBoxChangeSignUpPassword = this.onTextBoxChangeSignUpPassword.bind(this)
+    this.onTextBoxChangeSignUpFirstName = this.onTextBoxChangeSignUpFirstName.bind(this)
+    this.onTextBoxChangeSignUpLastName = this.onTextBoxChangeSignUpLastName.bind(this)
 
   }
 
@@ -45,6 +61,43 @@ class Home extends Component {
     }
   }
 
+  onTextBoxChangeSignInEmail(event){
+    this.setState({
+      signInEmail: event.target.value
+    })
+  }
+
+  onTextBoxChangeSignInPassword(event){
+    this.setState({
+      signInPassword: event.target.value
+    })
+  }
+
+  onTextBoxChangeSignUpEmail(event){
+    this.setState({
+      signUpEmail: event.target.value
+    })
+  }
+
+  onTextBoxChangeSignUpPassword(event){
+    this.setState({
+      signUpPassword: event.target.value
+    })
+  }
+
+  onTextBoxChangeSignUpFirstName(event){
+    this.setState({
+      signUpFirstName: event.target.value
+    })
+  }
+
+  onTextBoxChangeSignUpLastName(event){
+    this.setState({
+      signUpLastName: event.target.value
+    })
+  }
+
+
 
 
   render() {
@@ -52,6 +105,18 @@ class Home extends Component {
     const {
       isLoading,
       token,
+      //if token is available
+      signInEmail,
+      signInPassword,
+      //if there is an error for sigining up and in
+      signInError,
+      signUpError,
+      //Signing up a new account
+      signUpEmail,
+      signUpPassword,
+      signUpFirstName,
+      signUpLastName,
+
     } = this.state;
 
 
@@ -69,19 +134,68 @@ class Home extends Component {
       return (
         <div>
         <div>
+        {
+          (signInError) ? ( //if sign in error true
+            <p>{signInError}</p> // return the sign in error
+          ) : (null) // otherwise return null
+        }
         <p>Sign In</p>
-        <input type ='email' placeholder='Email'/>
-        <input type ='password' placeholder='Password'/>
+
+        <input
+        type ='email'
+        placeholder='Email'
+        value={signInEmail}
+        onChange = {this.onTextBoxChangeSignInEmail}
+
+        /><br/>
+
+        <input
+        type ='password'
+        placeholder='Password'
+        value={signInPassword}
+        onChange = {this.onTextBoxChangeSignInPassword}
+
+        /><br/>
+        <button>Sign In</button>
         </div>
         <br/>
         <br/>
         <div>
-        <p>Sign Up</p>
-        <input type ='email' placeholder='Email'/>
-        <input type ='text' placeholder='First Name'/>
-        <input type ='text' placeholder='Last Name'/>
-        <input type ='password' placeholder='Password'/>
 
+        <p>Sign Up</p>
+
+        <input
+        type ='email'
+        placeholder='Email'
+        value={signUpEmail}
+        onChange = {this.onTextBoxChangeSignUpEmail}
+
+        /><br/>
+
+        <input
+        type ='text'
+        placeholder='First Name'
+        value={signUpFirstName}
+        onChange = {this.onTextBoxChangeSignUpFirstName}
+
+        /><br/>
+
+        <input
+        type ='text'
+        placeholder='Last Name'
+        value={signUpLastName}
+        onChange = {this.onTextBoxChangeSignUpLastName}
+
+        /><br/>
+
+        <input
+        type ='password'
+        placeholder='Password'
+        value={signUpPassword}
+        onChange = {this.onTextBoxChangeSignUpPassword}
+
+        /><br/>
+        <button>Sign Up</button>
         </div>
         </div>
       )

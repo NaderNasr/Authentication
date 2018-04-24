@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 
+import RaisedButton from 'material-ui/RaisedButton';
+//import React from 'react';
+//import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+//import MyAwesomeReactComponent from './MyAwesomeReactComponent';
+
 import {getFromStorage, setInStorage} from '../../utils/storage'
 
+import FlatButton from 'material-ui/FlatButton';
+
+
+// class Home extends React.Component
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -25,8 +35,9 @@ class Home extends Component {
     };
 
     this.onTextBoxChangeSignInEmail = this.onTextBoxChangeSignInEmail.bind(this)
-    this.onTextBoxChangeSignUpEmail = this.onTextBoxChangeSignUpEmail.bind(this)
     this.onTextBoxChangeSignInPassword = this.onTextBoxChangeSignInPassword.bind(this)
+
+    this.onTextBoxChangeSignUpEmail = this.onTextBoxChangeSignUpEmail.bind(this)
     this.onTextBoxChangeSignUpPassword = this.onTextBoxChangeSignUpPassword.bind(this)
     this.onTextBoxChangeSignUpFirstName = this.onTextBoxChangeSignUpFirstName.bind(this)
     this.onTextBoxChangeSignUpLastName = this.onTextBoxChangeSignUpLastName.bind(this)
@@ -39,16 +50,16 @@ class Home extends Component {
 
   componentDidMount() {
 
-    const obj = getFromStorage('TROLL')
+    const obj = getFromStorage('BuyNoMore')
     if(obj && obj.token){
       const {token} = obj.token
 
-      fetch('/api/account/verify?token' + token)
-      .then(res => res.json())
+      fetch('/api/account/verify?token=' + token)
+      .then(response => response.json())
       .then(json => {
         if(json.success){
           this.setState({
-            token:token,
+            token,
             isLoading: false
           })
         } else {
@@ -127,11 +138,14 @@ class Home extends Component {
         firstName: signUpFirstName,
         lastName: signUpLastName,
         email: signUpEmail,
-        password: signUpPassword
+        password: signUpPassword,
       }),
     })
-    .then(res => req.json())
+    .then(response => request.json())
     .then(json => {
+
+      console.log(json)
+
       if(json.success){
         this.setState({
           signUpError: json.message,
@@ -167,7 +181,7 @@ class Home extends Component {
 
     })
 
-    fetch('api/account/signin', {
+    fetch('/api/account/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -178,10 +192,11 @@ class Home extends Component {
         password: signInPassword,
       }),
     })
-    .then(res => req.json())
+    .then(response => request.json())
     .then(json => {
+      console.log(json)
       if(json.success){
-        setInStorage('TROLL', {token: json.token}) //save the token
+        setInStorage('BuyNoMore', {token: json.token}) //save the token
         this.setState({
           signInError: json.message,
           isLoading: false,
@@ -204,12 +219,12 @@ class Home extends Component {
     this.setState({
       isLoading: true
     })
-    const obj = getFromStorage('TROLL')
+    const obj = getFromStorage('BuyNoMore')
     if(obj && obj.token){
-      const {token} = obj.token
+      const {token} = obj;
 
-      fetch('api/account/logout?token' + token)
-      .then(res => res.json())
+      fetch('/api/account/logout?token=' + token)
+      .then(response => response.json())
       .then(json => {
         if(json.success){
           this.setState({
@@ -346,6 +361,7 @@ class Home extends Component {
       <p>Account</p>
       </div>
       <button onClick = {this.logout}>LogOut</button>
+      // <RaisedButton label='do this thing' />
       </div>
     );
   }

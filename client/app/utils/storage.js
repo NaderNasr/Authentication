@@ -4,12 +4,12 @@ export function getFromStorage(key) {
   }
 
   try {
-    const valStr = localStorage.getItem(key)
-    if(valStr){
-      return JSON.parse(valStr)
+    const valueStr = localStorage.getItem(key)
+    if(valueStr){
+      return JSON.parse(valueStr)
     }
     return null;
-  } catch (e) {
+  } catch (err) {
     return null;
   }
 }
@@ -20,11 +20,9 @@ export function setInStorage(key, obj) {
   }
   try {
     localStorage.setItem(key, JSON.stringify(obj))
-  } catch (e) {
+  } catch (err) {
 
-    console.error(e)
-
-  } finally {
+    console.error(err)
 
   }
 }

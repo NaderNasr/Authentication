@@ -6,7 +6,7 @@ const UserSessionSchema = new mongoose.Schema({
     default: ''
   },
 
-  date: {
+  timeStamp: {
     type: Date,
     default: Date.now()
   },

@@ -10,11 +10,11 @@ module.exports = (app) => {
   //https://www.youtube.com/watch?v=sjyJBL5fkp8
 
   //--------------USER SIGN UP-------------------------------------
-  app.post('api/account/signup', (request, response, next) => {
+  app.post('/api/account/signup', (request, response, next) => {
 
     const { body } = request
     const { firstName, lastName, password } = body;
-    const { email } = body;
+    let { email } = body;
 
     if(!firstName){
       return response.send({
@@ -49,7 +49,7 @@ module.exports = (app) => {
     console.log('THIS IS WORKING !!')
 
     email = email.toLowerCase() //setting all email data to lower case
-
+    email = email.trim()
     //Verify email address
     User.find({
 
@@ -57,7 +57,7 @@ module.exports = (app) => {
 
     },
 
-    (err, storedData) => {
+    (err, previousUsers) => {
 
       if( err ){
 
@@ -65,7 +65,7 @@ module.exports = (app) => {
           success: false,
           message: 'Email Cannot Be Empty'
         })
-      } else if (storedData > 0){
+      } else if (previousUsers.length > 0){
 
         return response.send({
           success: false,
@@ -81,22 +81,22 @@ module.exports = (app) => {
       newUser.firstName = firstName;
       newUser.lastName = lastName;
       newUser.password = newUser.generateHash(password);
-      newUser.save((err,user) => {
+      newUser.save((err, user) => {
         if(err){
-          response.end({
+          return response.end({
             success: false,
             message: 'Please Check There seems to be an Error'
           })
-        } else {
-          response.end({
+        }
+          return response.end({
             success: true,
             message: 'Success Signed up'
           })
-        }
+
 
 
       })
-
+//end of sign up
 
 
 
@@ -104,11 +104,11 @@ module.exports = (app) => {
 
   })
 
-  app.post('api/account/signin', (request, response, next) => {
+  app.post('/api/account/signin', (request, response, next) => {
 
     const { body } = request
     const { firstName, lastName, password } = body;
-    const { email } = body;
+    let { email } = body;
 
 
     if(!firstName){
@@ -140,6 +140,9 @@ module.exports = (app) => {
       })
     }
 
+    email = email.toLowerCase()
+    email - email.trim()
+
     User.find({
       email: email,
     }, (err, users) => {
@@ -169,7 +172,7 @@ module.exports = (app) => {
       //Create User SESSIONN
       const UserSession = new UserSession()
       UserSession.userId = user._id
-      UserSession.save((err, idd) => {
+      UserSession.save((err, doc) => {
         if ( err ){
           return response.send({
             success: false,
@@ -180,7 +183,7 @@ module.exports = (app) => {
         return response.send({
           success: true,
           message: 'Sign in has been successful',
-          token: idd._id //this is the unique string that the password id and password generates
+          token: doc._id //this is the unique string that the password id and password generates
           //both the password and the ID are connected to the same token
         })
 
@@ -191,11 +194,11 @@ module.exports = (app) => {
 
     })
 
-    email = email.toLowerCase()
+
 
   })
 
-  app.get('api/account/verify', (request, response, next) => {
+  app.get('server/routes/api/verify', (request, response, next) => {
 
     //verify the token in the sign in
     // make sure its unique
@@ -212,13 +215,13 @@ module.exports = (app) => {
     (err, sessions) => {
 
       if( err ){
-        return res.send({
+        return response.send({
           success: false,
           message: 'Server Error'
         })
       }
       if(sessions.length != 1){
-        return res.send({
+        return response.send({
           success: false,
           message: 'Invalid'
         });
@@ -231,13 +234,13 @@ module.exports = (app) => {
     });
   });
 
-  app.get('api/account/logout', (request, response, next) => {
+  app.get('/api/account/logout', (request, response, next) => {
 //FIND ONE and UPDATE - MONGOOSE
     const { query } = request
     const { token } = query
 
 
-    UserSession.findAndUpdate({
+    UserSession.findOneAndUpdate({
       _id: token,
       isDeleted: false
     }, {
@@ -247,7 +250,7 @@ module.exports = (app) => {
     (err, sessions) => {
 
       if( err ){
-        return res.send({
+        return response.send({
           success: false,
           message: 'Server Error'
         })

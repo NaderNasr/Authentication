@@ -12,6 +12,7 @@ const Header = () => (
 
     <hr />
   </header>
+  
 );
 
 export default Header;

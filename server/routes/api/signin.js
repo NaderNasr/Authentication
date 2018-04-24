@@ -87,11 +87,11 @@ module.exports = (app) => {
             success: false,
             message: 'Please Check There seems to be an Error'
           })
-        }
-          return response.end({
+        }else { response.end({
             success: true,
             message: 'Success Signed up'
           })
+        }
 
 
 

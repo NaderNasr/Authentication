@@ -3,7 +3,10 @@ import React from 'react';
 const Footer = () => (
   <footer>
     <hr />
-     <p>Footer</p>
+    <br/>
+    <br/>
+    <br/>
+     <p>Contact Us</p>
   </footer>
 );
 

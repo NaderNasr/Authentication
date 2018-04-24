@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-
-import RaisedButton from 'material-ui/RaisedButton';
-//import React from 'react';
-//import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-//import MyAwesomeReactComponent from './MyAwesomeReactComponent';
-
 import {getFromStorage, setInStorage} from '../../utils/storage'
+//import GoogleApiComponent from '../../Home2/Gmaps.js'
 
-import FlatButton from 'material-ui/FlatButton';
 
 
-// class Home extends React.Component
+
+// className Home extends React.Component
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -213,7 +207,7 @@ class Home extends Component {
         })
       }
     })
-}
+  }
 
   logout(){
     this.setState({
@@ -245,6 +239,11 @@ class Home extends Component {
       })
     }
   }
+
+
+  // googleMaps(){
+  //   const apiKey = 'AIzaSyAjLGju0Hfbztam7hq5BqNnOMUmmA4Wgg8';
+  // }
 
 
   render() {
@@ -280,18 +279,19 @@ class Home extends Component {
 
       return (
 
-        <div class="container-fluid">
-        <div class="col-1" >
-        <div class="card-body">
+
+        <div className = "row">
+        <div className="col-3" >
+        <div className="card-body">
         {
           (signInError) ? ( //if sign in error true
             <p>{signInError}</p> // return the sign in error
           ) : (null) // otherwise return null
         }
-        <p class="breadcrumb">Sign In</p>
+        <p className="breadcrumb">Sign In</p>
 
         <input
-        class="form-control"
+        className="form-control"
         type ='email'
         placeholder='Email'
         value={signInEmail}
@@ -300,32 +300,32 @@ class Home extends Component {
         /><br/>
 
         <input
-        class="form-control"
+        className="form-control"
         type ='password'
         placeholder='Password'
         value={signInPassword}
         onChange = {this.onTextBoxChangeSignInPassword}
 
         /><br/>
-        <button class="btn btn-primary btn-lg active" onClick = {this.onSignIn} >Sign In</button>
+        <button className="btn btn-primary btn-lg active" onClick = {this.onSignIn} >Sign In</button>
         </div>
         <br/>
         <br/>
 
         {
-          (signUpError) ? ( //if sign in error true
+          (signInError) ? ( //if sign in error true
             <p>{signInError}</p> // return the sign in error
           ) : (null) // otherwise return null
         }
 
 
 
-        <div class="card-body" >
+        <div className="card-body" >
 
-        <p class="breadcrumb">Sign Up</p>
+        <p className="breadcrumb">Sign Up</p>
 
         <input
-        class="form-control"
+        className="form-control"
         type ='email'
         placeholder='Email'
         value={signUpEmail}
@@ -334,7 +334,7 @@ class Home extends Component {
         /><br/>
 
         <input
-        class="form-control"
+        className="form-control"
         type ='text'
         placeholder='First Name'
         value={signUpFirstName}
@@ -343,7 +343,7 @@ class Home extends Component {
         /><br/>
 
         <input
-        class="form-control"
+        className="form-control"
         type ='text'
         placeholder='Last Name'
         value={signUpLastName}
@@ -352,23 +352,81 @@ class Home extends Component {
         /><br/>
 
         <input
-        class="form-control"
+        className="form-control"
         type ='password'
         placeholder='Password'
         value={signUpPassword}
         onChange = {this.onTextBoxChangeSignUpPassword}
 
         /><br/>
-        <button class="btn btn-primary btn-lg active" onClick = {this.onSignUp}>Sign Up</button>
+        <button className="btn btn-primary btn-lg active" onClick = {this.onSignUp}>Sign Up</button>
+
         </div>
+        </div>
+        <div className = "row">
+
+
+
+        <div className="card mb-12">
+        <img className="card-img-top" src="http://cdn.shopify.com/s/files/1/2512/4020/products/map-syria-jordan-9781553412748-4_1200x1200.jpg?v=1509641801" alt="Card image cap"/>
+        <div className="card-body">
+        <h5 className="card-title col-md-2 col-md-offset-5">Borrow Items Below</h5>
+
+        <table className="card-text">
+        <tbody>
+  <tr>
+    <th>Item</th>
+    <th>Contact</th>
+    <th>Location</th>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td><button>Press</button></td>
+    <td>Jabal Amman</td>
+  </tr>
+  <tr>
+    <td>Centro comercial Moctezuma</td>
+    <td><button>Press</button></td>
+    <td>Jabal Amman</td>
+  </tr>
+  <tr>
+    <td>Ernst Handel</td>
+    <td><button>Press</button></td>
+    <td>Jabal Amman</td>
+  </tr>
+  <tr>
+    <td>Island Trading</td>
+    <td><button>Press</button></td>
+    <td>Jabal Amman</td>
+  </tr>
+  <tr>
+    <td>Laughing Bacchus Winecellars</td>
+    <td><button>Press</button></td>
+    <td>Jabal Amman</td>
+  </tr>
+  <tr>
+    <td>Magazzini Alimentari Riuniti</td>
+    <td><button>Press</button></td>
+    <td>Jabal Amman</td>
+  </tr>
+  </tbody>
+</table>
+
+
+        </div>
+
+
+
         </div>
 
 
         </div>
+        </div>
+
       )
     }
 
-    // <div class="col-8">
+    // <div className="col-8">
     // <p>TEST</p>
     // </div>
 

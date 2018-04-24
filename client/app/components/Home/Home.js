@@ -279,16 +279,19 @@ class Home extends Component {
     if(!token){ //if token is not available its a sign up and sign in process
 
       return (
-        <div>
-        <div>
+
+        <div class="container-fluid">
+        <div class="col-1" >
+        <div class="card-body">
         {
           (signInError) ? ( //if sign in error true
             <p>{signInError}</p> // return the sign in error
           ) : (null) // otherwise return null
         }
-        <p>Sign In</p>
+        <p class="breadcrumb">Sign In</p>
 
         <input
+        class="form-control"
         type ='email'
         placeholder='Email'
         value={signInEmail}
@@ -297,13 +300,14 @@ class Home extends Component {
         /><br/>
 
         <input
+        class="form-control"
         type ='password'
         placeholder='Password'
         value={signInPassword}
         onChange = {this.onTextBoxChangeSignInPassword}
 
         /><br/>
-        <button onClick = {this.onSignIn} >Sign In</button>
+        <button class="btn btn-primary btn-lg active" onClick = {this.onSignIn} >Sign In</button>
         </div>
         <br/>
         <br/>
@@ -313,11 +317,15 @@ class Home extends Component {
             <p>{signInError}</p> // return the sign in error
           ) : (null) // otherwise return null
         }
-        <div>
 
-        <p>Sign Up</p>
+
+
+        <div class="card-body" >
+
+        <p class="breadcrumb">Sign Up</p>
 
         <input
+        class="form-control"
         type ='email'
         placeholder='Email'
         value={signUpEmail}
@@ -326,6 +334,7 @@ class Home extends Component {
         /><br/>
 
         <input
+        class="form-control"
         type ='text'
         placeholder='First Name'
         value={signUpFirstName}
@@ -334,6 +343,7 @@ class Home extends Component {
         /><br/>
 
         <input
+        class="form-control"
         type ='text'
         placeholder='Last Name'
         value={signUpLastName}
@@ -342,17 +352,25 @@ class Home extends Component {
         /><br/>
 
         <input
+        class="form-control"
         type ='password'
         placeholder='Password'
         value={signUpPassword}
         onChange = {this.onTextBoxChangeSignUpPassword}
 
         /><br/>
-        <button onClick = {this.onSignUp}>Sign Up</button>
+        <button class="btn btn-primary btn-lg active" onClick = {this.onSignUp}>Sign Up</button>
         </div>
+        </div>
+
+
         </div>
       )
     }
+
+    // <div class="col-8">
+    // <p>TEST</p>
+    // </div>
 
 
     return ( //if there is a token available and is set and is verified

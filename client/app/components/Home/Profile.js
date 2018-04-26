@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Items from './Items.js'
+
 
 class Profile extends React.Component {
 
@@ -52,7 +52,7 @@ class Profile extends React.Component {
       <td>Lollipop</td>
       <td>Lend</td>
     </tr>
-    <Items/>
+    
   </tbody>
 </table>
       </div>

@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import {getFromStorage, setInStorage} from '../../utils/storage'
-//import GoogleApiComponent from '../../Home2/Gmaps.js'
+import {
+  getFromStorage,
+  setInStorage,
+} from '../../utils/storage'
 
+import Profile from './Profile'
+//import GoogleApiComponent from '../../Home2/Gmaps.js'
+// import {
+//   withGoogleMap,
+//   GoogleMap,
+//   InfoWindow,
+//   Marker,
+// } from "react-google-maps";
 
 
 
@@ -24,7 +34,8 @@ class Home extends Component {
       signUpPassword: '',
       signUpEmail: '',
       signUpFirstName: '',
-      signUpLastName: ''
+      signUpLastName: '',
+      number: Number,
 
     };
 
@@ -35,6 +46,7 @@ class Home extends Component {
     this.onTextBoxChangeSignUpPassword = this.onTextBoxChangeSignUpPassword.bind(this)
     this.onTextBoxChangeSignUpFirstName = this.onTextBoxChangeSignUpFirstName.bind(this)
     this.onTextBoxChangeSignUpLastName = this.onTextBoxChangeSignUpLastName.bind(this)
+    this.onTextBoxChangeNumber = this.onTextBoxChangeNumber.bind(this)
 
     this.onSignUp = this.onSignUp.bind(this)
     this.onSignIn = this.onSignIn.bind(this)
@@ -107,6 +119,12 @@ class Home extends Component {
     })
   }
 
+  onTextBoxChangeNumber(event){
+    this.setState({
+      number: event.targetr.value
+    })
+  }
+
 
   onSignUp(){
     // POST request to backend
@@ -116,6 +134,7 @@ class Home extends Component {
       signUpPassword,
       signUpFirstName,
       signUpLastName,
+      number,
     } = this.state
 
     this.setState({
@@ -148,6 +167,7 @@ class Home extends Component {
           signUpPassword: '',
           signUpFirstName: '',
           signUpLastName: '',
+
         })
       } else {
         this.setState({
@@ -248,6 +268,7 @@ class Home extends Component {
 
   render() {
 
+
     const {
       isLoading,
       token,
@@ -278,6 +299,7 @@ class Home extends Component {
     if(!token){ //if token is not available its a sign up and sign in process
 
       return (
+        <div>
 
 
         <div className = "row">
@@ -307,7 +329,7 @@ class Home extends Component {
         onChange = {this.onTextBoxChangeSignInPassword}
 
         /><br/>
-        <button className="btn btn-primary btn-lg active" onClick = {this.onSignIn} >Sign In</button>
+        <button className="btn btn-primary btn-lg active" onClick = {this.onSignIn}>Sign In</button>
         </div>
         <br/>
         <br/>
@@ -319,7 +341,9 @@ class Home extends Component {
         }
 
 
+        <p>Account</p>
 
+        <button className="btn btn-primary btn-lg active" onClick = {this.logout}>LogOut</button>
         <div className="card-body" >
 
         <p className="breadcrumb">Sign Up</p>
@@ -361,68 +385,13 @@ class Home extends Component {
         /><br/>
         <button className="btn btn-primary btn-lg active" onClick = {this.onSignUp}>Sign Up</button>
 
+        <div>
         </div>
         </div>
-        <div className = "row">
-
-
-
-        <div className="card mb-12">
-        <img className="card-img-top" src="http://cdn.shopify.com/s/files/1/2512/4020/products/map-syria-jordan-9781553412748-4_1200x1200.jpg?v=1509641801" alt="Card image cap"/>
-        <div className="card-body">
-        <h5 className="card-title col-md-2 col-md-offset-5">Borrow Items Below</h5>
-
-        <table className="card-text">
-        <tbody>
-  <tr>
-    <th>Item</th>
-    <th>Contact</th>
-    <th>Location</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td><button>Press</button></td>
-    <td>Jabal Amman</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td><button>Press</button></td>
-    <td>Jabal Amman</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td><button>Press</button></td>
-    <td>Jabal Amman</td>
-  </tr>
-  <tr>
-    <td>Island Trading</td>
-    <td><button>Press</button></td>
-    <td>Jabal Amman</td>
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td><button>Press</button></td>
-    <td>Jabal Amman</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td><button>Press</button></td>
-    <td>Jabal Amman</td>
-  </tr>
-  </tbody>
-</table>
-
-
         </div>
-
-
-
-        </div>
-
-
+        <Profile s={this.state.signUpFirstName}/>
         </div>
         </div>
-
       )
     }
 
@@ -431,15 +400,12 @@ class Home extends Component {
     // </div>
 
 
-    return ( //if there is a token available and is set and is verified
-      <div>
-      <div>
-      <p>Account</p>
-      </div>
-      <button onClick = {this.logout}>LogOut</button>
-      // <RaisedButton label='do this thing' />
-      </div>
-    );
+   //if there is a token available and is set and is verified
+
+
+
+
+
   }
 }
 
